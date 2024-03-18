@@ -1,95 +1,123 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// app/page.tsx
+'use client'
+import { 
+  Card, 
+  CardHeader, 
+  CardBody, 
+  Box, 
+  Text, 
+  Grid, 
+  Stack, 
+  Button, 
+  useDisclosure, 
+  Modal, 
+  ModalOverlay, 
+  ModalContent, 
+  ModalHeader, 
+  ModalCloseButton,
+  ModalBody, 
+  ModalFooter,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer, } from "@chakra-ui/react";
 
-export default function Home() {
+export default function Page() {
+  
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <Box minW="100vw" minH="100vh" display="flex" justifyContent="center" alignItems="center" bg="#161616">
+      <Card maxW="sm" mx="auto" bg="#303030">
+        <CardHeader borderBottom="1px" borderColor="gray.200">
+          <Box px={6} py={4}>
+            <Text fontSize="lg" fontWeight="medium" color= "#CECFCF">
+              CRONÓGRAFO PARA AIRSOFT
+            </Text>
+          </Box>
+        </CardHeader>
+        <CardBody p={0}>
+          <Grid gap={0}>
+            <Stack spacing={2} px={6} py={6}>
+              <Stack direction="row" justifyContent="space-between" fontSize="sm" fontWeight="medium" color="gray.500">
+                <Text color= "#CECFCF">Joules (J)</Text>
+                <Text color= "#CECFCF" id="joules">0.00</Text>
+              </Stack>
+              <Stack direction="row" justifyContent="space-between" fontSize="sm" fontWeight="medium" color="gray.500">
+                <Text color= "#CECFCF">Speed (m/s)</Text>
+                <Text color= "#CECFCF" id="speed">0.00</Text>
+              </Stack>
+              <Stack direction="row" justifyContent="space-between" fontSize="sm" fontWeight="medium" color="gray.500">
+                <Text color= "#CECFCF">Calibre (mm)</Text>
+                <Text color= "#CECFCF" id="caliber">0.00</Text>
+              </Stack>
+              <Stack direction="row" justifyContent="space-between" fontSize="sm" fontWeight="medium" color="gray.500">
+                <Text color= "#CECFCF">FPS</Text>
+                <Text color= "#CECFCF" id="fps">0.00</Text>
+              </Stack>
+            </Stack>
+            <Box borderTop="1px" borderColor="gray.200" />
+            <Stack px={6} py={6} direction="row" justifyContent="center">
+              <Button onClick={onOpen} size="sm">Resultados</Button>              
+            </Stack>
+          </Grid>
+        </CardBody>
+      </Card>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Histórico de Medição</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+          <TableContainer>
+            <Table variant='simple'>              
+              <Thead>
+                <Tr>
+                  <Th isNumeric>Joule(j)</Th>
+                  <Th isNumeric>Speed(m/s)</Th>
+                  <Th isNumeric>Calibre(mm)</Th>
+                  <Th isNumeric>FPS</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                </Tr>
+                <Tr>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                </Tr>
+                <Tr>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                  <Td isNumeric>0.00</Td>
+                </Tr>
+              </Tbody>
+              
+            </Table>
+          </TableContainer>
+          </ModalBody>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Fechar
+            </Button>
+            
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    
   );
 }
