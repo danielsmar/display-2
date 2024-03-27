@@ -24,30 +24,55 @@ import {
   Tr,
   Th,
   Td, 
-  TableContainer, } from "@chakra-ui/react";
+  TableContainer,
+  border, } from "@chakra-ui/react";
 import {useEffect, useState } from "react";
 import prisma from "@/lib/prisma";
 import { Measurement, MeasurementsController } from "@/controllers/measurements";
+import { on } from "events";
 
 
 
-export default function Page() {
+
+export default function Page() { 
+
   const [joules, setJoules] = useState(0);
   const [speed, setSpeed] = useState(0);
   const [caliber, setCaliber] = useState(0);
   const [fps, setFps] = useState(0);
-
   const { isOpen, onOpen, onClose } = useDisclosure()   
   const [measurements, setMeasurements] = useState<Measurement[]>([]); 
 
   useEffect(() => {
+    async function fetchArduinoData() {
+      try {
+        const response = await fetch('/api/arduinoData');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setJoules(data.joules);
+        setSpeed(data.speed);
+        setCaliber(data.caliber);
+        setFps(data.fps);
+      } catch (error) {
+        console.error('Error fetching arduino data:', error);
+      }
+   }
+   fetchArduinoData();
+
     async function fetchMeasurements(){
       const response = await fetch('/api/measurements',{method: 'GET'});
       const data = await response.json();
       setMeasurements(data.measurements);    
     }
-    fetchMeasurements();    
+    fetchMeasurements();  
   },[]);
+
+  const handleClick =  () => {
+    onOpen();
+    
+  }
   
   
   return (
@@ -82,7 +107,8 @@ export default function Page() {
             </Stack>
             <Box borderTop="1px" borderColor="gray.200" />
             <Stack px={6} py={6} direction="row" justifyContent="center">
-              <Button onClick={onOpen} size="sm">Resultados</Button>                            
+              <Button  onClick={handleClick} size="sm">Resultados</Button>       
+                                       
             </Stack>
           </Grid>
         </CardBody>
